@@ -1,7 +1,5 @@
 # Project Numéro 3
-Je suprime l'ancien fichier des que je rentre chez moi 
-
-Ce projet utilise Flask pour créer un site web simple avec une interface de connexion et une page d'accueil.
+Ce projet utilise Flask pour créer un site web simple et une page d'accueil.
 
 
 
