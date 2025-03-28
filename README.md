@@ -11,3 +11,6 @@ Ce projet utilise Flask pour créer un site web simple.
 
 ### Modules
 - hashlib
+- sqlite3
+- os
+- flask
