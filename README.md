@@ -1,16 +1,13 @@
 # Project Numéro 3
-Ce projet utilise Flask pour créer un site web simple et une page d'accueil.
+Ce projet utilise Flask pour créer un site web simple.
 
-## Agenda de réalisation
+## Description
+- Ce projet web consiste à créer un site internet avec une inscription via une base de données en backend, qui récupère le nom  
+  d'utilisateur et hache le mot de passe entré.  
+  On pourra ainsi se connecter au site et accéder à la page secrète du site.  
 
-### Jour 1 : Préparation et mise en place
- - tantative de regler tout les problemes du site.
- - probleme deconnextion au server WEB
- - me mettre au minimum demander pendent les vacances
- - et bie sur trouver enfin un Sujet !!!!!!!
+  **IMPORTANT** : Le site a été écrit à l'aide d'outils d'intelligence artificielle. Malgré cela, j'ai fait attention à comprendre le code  
+  et son fonctionnement.  
 
-## Idée 
-- tout simplement un site ou on peut se connecter a un son compte. Avoir des mots de passe etc. (BDD)
 ### Modules
-- Hashlid
-
+- hashlib
