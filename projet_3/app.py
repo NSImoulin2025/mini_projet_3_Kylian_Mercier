@@ -8,16 +8,14 @@ app.secret_key = os.urandom(24)
 
 @app.route("/")
 def home():
-    """
-    Affiche la page d'accueil.
+    """Affiche la page d'accueil.
     Si une session utilisateur est active, elle est transmise au template.
     """
     return render_template("index.html", session=session)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    """
-    Gère l'authentification des utilisateurs.
+    """Gère l'authentification des utilisateurs.
     - En GET : affiche le formulaire de connexion.
     - En POST : vérifie les identifiants saisis, et connecte l'utilisateur si correct.
     """
@@ -50,8 +48,7 @@ def login():
 
 @app.route("/secret")
 def secret():
-    """
-    Page accessible uniquement aux utilisateurs connectés.
+    """Page accessible uniquement aux utilisateurs connectés.
     Si l'utilisateur n'est pas authentifié, il est redirigé vers la page de connexion.
     """
     if "user" in session:
@@ -61,16 +58,14 @@ def secret():
 
 @app.route("/logout")
 def logout():
-    """
-    Déconnecte l'utilisateur en supprimant ses données de session,
+    """Déconnecte l'utilisateur en supprimant ses données de session,
     puis redirige vers la page d'accueil.
     """
     session.pop("user", None)  
     return redirect(url_for("home"))
 
 def get_db_connection():
-    """
-    Crée et retourne une connexion à la base de données SQLite.
+    """Crée et retourne une connexion à la base de données SQLite.
     Configure le curseur pour retourner des lignes accessibles par nom de colonne.
     """
     conn = sqlite3.connect("database.db")
@@ -79,8 +74,7 @@ def get_db_connection():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    """
-    Gère l'enregistrement d'un nouvel utilisateur.
+    """Gère l'enregistrement d'un nouvel utilisateur.
     - En GET : affiche le formulaire d'inscription.
     - En POST : crée un nouvel utilisateur avec un mot de passe haché.
     Empêche les doublons de noms d'utilisateur grâce à une contrainte d'intégrité.
