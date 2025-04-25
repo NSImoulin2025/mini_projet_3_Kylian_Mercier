@@ -8,10 +8,19 @@ app.secret_key = os.urandom(24)
 
 @app.route("/")
 def home():
-     return render_template("index.html", session=session)
+    """
+    Affiche la page d'accueil.
+    Si une session utilisateur est active, elle est transmise au template.
+    """
+    return render_template("index.html", session=session)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """
+    Gère l'authentification des utilisateurs.
+    - En GET : affiche le formulaire de connexion.
+    - En POST : vérifie les identifiants saisis, et connecte l'utilisateur si correct.
+    """
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -36,50 +45,67 @@ def login():
         else:
             return "Utilisateur introuvable !"
 
-    return render_template("login.html") # Si méthode GET
+    # Si méthode GET
+    return render_template("login.html") 
 
 @app.route("/secret")
 def secret():
-    print("Session actuelle :", session)  # Vérification
+    """
+    Page accessible uniquement aux utilisateurs connectés.
+    Si l'utilisateur n'est pas authentifié, il est redirigé vers la page de connexion.
+    """
     if "user" in session:
         return render_template("secret.html")
     else:
-        return redirect(url_for("login"))  # Redirige vers /login si l'utilisateur n'est pas connecté
+        return redirect(url_for("login"))  
 
 @app.route("/logout")
 def logout():
-    session.pop("user", None)  # Supprime l'utilisateur de la session
+    """
+    Déconnecte l'utilisateur en supprimant ses données de session,
+    puis redirige vers la page d'accueil.
+    """
+    session.pop("user", None)  
     return redirect(url_for("home"))
 
-# Connexion à la base de données
 def get_db_connection():
+    """
+    Crée et retourne une connexion à la base de données SQLite.
+    Configure le curseur pour retourner des lignes accessibles par nom de colonne.
+    """
     conn = sqlite3.connect("database.db")
     conn.row_factory = sqlite3.Row
     return conn
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """
+    Gère l'enregistrement d'un nouvel utilisateur.
+    - En GET : affiche le formulaire d'inscription.
+    - En POST : crée un nouvel utilisateur avec un mot de passe haché.
+    Empêche les doublons de noms d'utilisateur grâce à une contrainte d'intégrité.
+    """
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
         # Hachage du mot de passe
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
-
+    
+        # Ouvre une connexion à SQLite
         conn = get_db_connection()
         cursor = conn.cursor()
 
         try:
             cursor.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, hashed_password))
             conn.commit()
-            return redirect(url_for("login"))  # Redirection vers la connexion après inscription
+            return redirect(url_for("login"))  
         except sqlite3.IntegrityError:
             return "Nom d'utilisateur déjà pris !"
 
         conn.close()
 
     return render_template("register.html")
-
 
 if __name__ == "__main__":
     app.run(debug=True)
